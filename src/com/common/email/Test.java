@@ -1,8 +1,5 @@
 package com.common.email;
 
-import java.util.Arrays;
-import java.util.List;
-
 import com.common.config.PropertiesUtil;
 import com.common.time.FormatDuring;
 
