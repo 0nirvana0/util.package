@@ -17,12 +17,14 @@ public class EmailUtil {
 	private String hostName;
 	private String account;
 	private String password;
+	private int port;
 
 	/**
 	 * 构造方法，初始化EmailUtil对象
 	 */
-	private EmailUtil(String hostName, String account, String password) {
+	private EmailUtil(String hostName, int port, String account, String password) {
 		this.hostName = hostName;
+		this.port = port;
 		this.account = account;
 		this.password = password;
 	}
@@ -34,8 +36,8 @@ public class EmailUtil {
 	 *            Class对象
 	 * @return Logger对象
 	 */
-	public static EmailUtil getEmail(String hostName, String account, String pass) {
-		return new EmailUtil(hostName, account, pass);
+	public static EmailUtil getEmail(String hostName, int port, String account, String pass) {
+		return new EmailUtil(hostName, port, account, pass);
 	}
 
 	// 发送简单邮件
@@ -43,13 +45,13 @@ public class EmailUtil {
 		try {
 			Email email = new SimpleEmail();
 			email.setHostName(hostName); // 发送服务器
-			email.setSmtpPort(465);
+			email.setSmtpPort(port);
 			email.setAuthenticator(new DefaultAuthenticator(account, password)); // 发送邮件的用户名和密码
-			email.setSSLOnConnect(true);
+			// email.setSSLOnConnect(true);
+			email.setStartTLSEnabled(true);
 			email.setFrom(account); // 发送邮箱
 			email.setSubject(subject);// 主题
 			email.setMsg(content); // 内容
-			// email.setCharset("GBK"); // 必须放在前面，否则乱码
 			email.addTo(to); // 接收邮箱
 			email.send();
 		} catch (EmailException ex) {

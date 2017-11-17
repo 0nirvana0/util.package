@@ -14,8 +14,8 @@ public class Test {
 	public static void testEmail() {
 
 		PropertiesUtil ep = PropertiesUtil.getPropertiesUtil("config/email/email.properties");
-		EmailUtil emailUtil = EmailUtil.getEmail(ep.getProperty("hostName"), ep.getProperty("account"),
-				ep.getProperty("password"));
+		EmailUtil emailUtil = EmailUtil.getEmail(ep.getProperty("hostName"), Integer.parseInt(ep.getProperty("port")),
+				ep.getProperty("account"), ep.getProperty("password"));
 
 		emailUtil.sendSimpleMail("172446628@qq.com", "主题", "内容");
 
