@@ -1,5 +1,6 @@
 package com.common.excel;
 
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -65,7 +66,7 @@ public abstract class ExcelReader extends DefaultHandler {
 	 * @throws Exception
 	 */
 	public void process(String filename) throws Exception {
-		OPCPackage pkg = OPCPackage.open(filename);
+		OPCPackage pkg = OPCPackage.open(new FileInputStream(filename));
 		XSSFReader r = new XSSFReader(pkg);
 		SharedStringsTable sst = r.getSharedStringsTable();
 		XMLReader parser = fetchSheetParser(sst);
@@ -78,6 +79,7 @@ public abstract class ExcelReader extends DefaultHandler {
 			parser.parse(sheetSource);
 			sheet.close();
 		}
+		pkg.close();
 	}
 
 	/**
@@ -88,7 +90,7 @@ public abstract class ExcelReader extends DefaultHandler {
 	 * @throws Exception
 	 */
 	public void process(String filename, int sheetId) throws Exception {
-		OPCPackage pkg = OPCPackage.open(filename);
+		OPCPackage pkg = OPCPackage.open(new FileInputStream(filename));
 		XSSFReader reader = new XSSFReader(pkg);
 		SharedStringsTable sst = reader.getSharedStringsTable();
 		XMLReader parser = fetchSheetParser(sst);
@@ -97,6 +99,7 @@ public abstract class ExcelReader extends DefaultHandler {
 		InputSource sheetSource = new InputSource(sheet2);
 		parser.parse(sheetSource);
 		sheet2.close();
+		pkg.close();
 	}
 
 	public XMLReader fetchSheetParser(SharedStringsTable sst) throws SAXException {
@@ -160,7 +163,6 @@ public abstract class ExcelReader extends DefaultHandler {
 		} else if ("v".equals(name)) {
 			// 补全单元格之间的空单元格
 			newCellCol = countNullCell(ref, "@");
-			// TODO 和上面的逻辑应该可以合并
 			if (curCol != newCellCol) {
 				// 1
 				// <x:c r="A1" t="s">

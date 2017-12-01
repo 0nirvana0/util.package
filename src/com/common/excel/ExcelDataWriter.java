@@ -58,6 +58,8 @@ public class ExcelDataWriter {
 			try {
 				if (os != null) {
 					os.close();
+				}
+				if (wb != null) {
 					wb.close();
 				}
 			} catch (IOException e) {

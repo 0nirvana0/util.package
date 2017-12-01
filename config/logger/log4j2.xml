@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+	<Appenders>
+		<!--Appender 1. 输出到Console，指定输出格式和过滤器等级为ERROR -->
+
+		<Console name="Console" target="SYSTEM_OUT">
+			<ThresholdFilter level="trace" onMatch="ACCEPT"
+				onMismatch="DENY" />
+			<PatternLayout
+				pattern="%d{HH:mm:ss.SSS} %-5level %class{36} %L %M - %msg%xEx%n" />
+		</Console>
+		<!--Appender 2. 打印出所有的信息，每次大小超过size，则这size大小的日志会自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档 -->
+		<RollingFile name="RollingFile" fileName="logs/rolling.log"
+			filePattern="logs/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz">
+			<ThresholdFilter level="error" onMatch="ACCEPT"
+				onMismatch="DENY" />
+			<PatternLayout
+				pattern="%d{yyyy-MM-dd 'at' HH:mm:ss z} %-5level %class{36} %L %M-%msg%xEx%n" />
+				<Policies>
+					<SizeBasedTriggeringPolicy size="3 KB" />
+				</Policies>
+				<!-- DefaultRolloverStrategy 中的参数max，可以限制 SizeBasedTriggeringPolicy中size超出后，只保留max个存档 -->
+				<DefaultRolloverStrategy fileIndex="max"
+					max="10" />
+		</RollingFile>
+	</Appenders>
+	<Loggers>
+		<Root level="trace">
+			<AppenderRef ref="Console" />
+			<AppenderRef ref="RollingFile" />
+		</Root>
+	</Loggers>
+</Configuration>
