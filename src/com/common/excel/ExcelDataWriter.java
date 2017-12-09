@@ -9,6 +9,7 @@ import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.streaming.SXSSFSheet;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 
 /**
@@ -27,39 +28,41 @@ public class ExcelDataWriter {
 		int excelRow = 0;
 		FileOutputStream os = null;
 		Workbook wb = null;
-		try {
-			// 设置工作簿内存数据保有量
 
-			wb = new SXSSFWorkbook(5000);
-			// 获得该工作区的第一个sheet
-			Sheet sheet1 = wb.createSheet();
+		wb = new SXSSFWorkbook(5000);
+		// 获得该工作区的第一个sheet
+		Sheet sheet1 = wb.createSheet();
 
-			// 循环读取并写入
-			if (data != null && data.size() > 0) {
-				for (int i = 0; i < data.size(); i++) {
-					// 明细行
-					Row contentRow = sheet1.createRow(excelRow++);
-					Object[] reParam = data.get(i);
+		// 循环读取并写入
+		if (data != null && data.size() > 0) {
+			for (int i = 0; i < data.size(); i++) {
+				// 明细行
+				Row contentRow = sheet1.createRow(excelRow++);
+				Object[] reParam = data.get(i);
 
-					for (int j = 0; j < reParam.length; j++) {
-						Cell cell = contentRow.createCell(j);
-						cell.setCellType(CellType.STRING);
-						cell.setCellValue(reParam[j].toString());
+				for (int j = 0; j < reParam.length; j++) {
+					Cell cell = contentRow.createCell(j);
+					cell.setCellType(CellType.STRING);
+					cell.setCellValue(reParam[j].toString());
 
-					}
 				}
-				os = new FileOutputStream(path);
-				wb.write(os);
-
 			}
+			// 自动列宽
+			((SXSSFSheet) sheet1).trackAllColumnsForAutoSizing();
+			for (int i = 0; i < data.get(0).length; i++) {				
+				sheet1.autoSizeColumn(i);
+			}
+		}
+
+		try {
+			os = new FileOutputStream(path);
+			wb.write(os);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			try {
 				if (os != null) {
 					os.close();
-				}
-				if (wb != null) {
 					wb.close();
 				}
 			} catch (IOException e) {

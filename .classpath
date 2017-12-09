@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="resource"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/poi-3.17.jar"/>
 	<classpathentry kind="lib" path="lib/poi-ooxml-3.17.jar"/>
@@ -12,5 +13,8 @@
 	<classpathentry kind="lib" path="lib/log4j-1.2.17.jar"/>
 	<classpathentry kind="lib" path="lib/log4j-api-2.10.0.jar"/>
 	<classpathentry kind="lib" path="lib/log4j-core-2.10.0.jar"/>
+	<classpathentry kind="lib" path="lib/commons-logging-1.2.jar"/>
+	<classpathentry kind="lib" path="lib/junrar-0.8.jar"/>
+	<classpathentry kind="lib" path="lib/commons-compress-1.15.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
