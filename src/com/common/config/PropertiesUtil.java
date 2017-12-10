@@ -12,7 +12,7 @@ public class PropertiesUtil {
 	private String path;
 
 	/**
-	 * 构造方法，初始化PropertiesUtil对象
+	 * 构造方法，初始化PropertiesUtil对象	
 	 */
 	private PropertiesUtil(String path) {
 		this.path = path;
