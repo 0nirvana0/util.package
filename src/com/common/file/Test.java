@@ -58,4 +58,21 @@ public class Test {
 		}
 
 	}
+
+	public static void testZip(String[] args) {
+		long lStart = System.currentTimeMillis();
+		// String dir = "data/zip/compress";
+		// String zippath = "data/zip/compress/compress.zip";
+		// ZipUtil.compressFiles2Zip(FileUtil.searchFile(new File(dir)),
+		// zippath);
+
+		String unzipfile = "data/zip/commons-compress-1.15.zip";
+		String unzipdir = "data/zip/unpack";
+		FileUtil.deleteAllFilesOfDir(unzipdir);
+		// ZipUtil.unzip(new File(unzipfile), new File(unzipdir));
+		ZipUtil.unZipAll(unzipfile, unzipdir);
+
+		System.out.println("success!");
+		System.out.println(FormatDuring.formatDuring(lStart, System.currentTimeMillis()));
+	}
 }

@@ -15,25 +15,7 @@ import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipArchiveInputStream;
 import org.apache.commons.compress.archivers.zip.ZipArchiveOutputStream;
 
-import com.common.time.FormatDuring;
-
 public class ZipUtil {
-	public static void main(String[] args) {
-		long lStart = System.currentTimeMillis();
-		String dir = "data/zip/compress";
-		String zippath = "data/zip/compress/compress.zip";
-		// ZipUtil.compressFiles2Zip(FileUtil.searchFile(new File(dir)),
-		// zippath);
-
-		String unzipfile = "data/zip/commons-compress-1.15.zip";
-		String unzipdir = "data/zip/unpack";
-		FileUtil.deleteAllFilesOfDir(unzipdir);
-		// ZipUtil.unzip(new File(unzipfile), new File(unzipdir));
-		unZipAll(unzipfile, unzipdir);
-
-		System.out.println("success!");
-		System.out.println(FormatDuring.formatDuring(lStart, System.currentTimeMillis()));
-	}
 
 	/**
 	 * zip压缩文件
@@ -137,7 +119,6 @@ public class ZipUtil {
 				// 构造解压出来的文件存放路径
 				String entryFilePath = saveFileDir + File.separator + entryFileName;
 				byte[] content = new byte[(int) archiveEntry.getSize()];
-				zais.read(content);
 				OutputStream os = null;
 				try {
 					// 把解压出来的文件写到指定路径
@@ -148,7 +129,10 @@ public class ZipUtil {
 						}
 					} else {
 						os = new BufferedOutputStream(new FileOutputStream(entryFile));
-						os.write(content);
+						int len = -1;
+						while ((len = zais.read(content)) != -1) {
+							os.write(content, 0, len);
+						}
 					}
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -193,6 +177,9 @@ public class ZipUtil {
 		}
 
 		File destinationFolder = new File(dstDirectoryPath);
+		if (!destinationFolder.exists()) {
+			destinationFolder.mkdirs();
+		}
 		if (srcZipPath.toLowerCase().endsWith(".zip")) {
 			unzip(zip, destinationFolder);
 		}
@@ -201,7 +188,6 @@ public class ZipUtil {
 		String fileName = "";
 		for (int i = 0; i < files.length; i++) {
 			fileName = files[i].getPath();
-			System.out.println(fileName);
 			unZipAll(fileName, fileName);
 		}
 	}
