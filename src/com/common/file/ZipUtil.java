@@ -109,7 +109,21 @@ public class ZipUtil {
 		ZipArchiveInputStream zais = null;
 		try {
 			is = new FileInputStream(zipFilePath);
-			zais = new ZipArchiveInputStream(is);
+			byte[] b = new byte[3];
+			is.read(b);
+			is.close();
+			String encoding;
+			if (b[0] == -17 && b[1] == -69 && b[2] == -65) {
+				System.out.println(zipFilePath.getName() + "：编码为UTF-8");
+				encoding = "UTF-8";
+			} else {
+				encoding = "GBK";
+				// System.out.println(zipFilePath.getName() +
+				// "：可能是GBK，也可能是其他编码");
+			}
+
+			is = new FileInputStream(zipFilePath);
+			zais = new ZipArchiveInputStream(is, encoding);
 			ArchiveEntry archiveEntry = null;
 			// 把zip包中的每个文件读取出来
 			// 然后把文件写到指定的文件夹
