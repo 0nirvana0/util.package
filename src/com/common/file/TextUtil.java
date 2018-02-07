@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 
 public class TextUtil {
+	
+
 	/**
 	 * 创建文件
 	 * 
@@ -34,7 +36,7 @@ public class TextUtil {
 	 * @return
 	 */
 	public static String readTxtFile(File fileName) {
-		String result = null;
+		String result = "";
 		FileReader fileReader = null;
 		BufferedReader bufferedReader = null;
 		try {
@@ -76,11 +78,8 @@ public class TextUtil {
 			o = new FileOutputStream(fileName, append);
 			o.write(content.getBytes("GBK"));
 			o.close();
-			// mm=new RandomAccessFile(fileName,"rw");
-			// mm.writeBytes(content);
 			flag = true;
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		} finally {
 			if (mm != null) {
