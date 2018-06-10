@@ -55,19 +55,16 @@ public class TextUtil {
 		} finally {
 			try {
 				if (bufferedReader != null) {
-
 					bufferedReader.close();
 				}
 				if (fileReader != null) {
 					fileReader.close();
 				}
 			} catch (IOException e) {
-
 				e.printStackTrace();
 			}
-		}
-		System.out.println("读取出来的文件内容是：" + "\r\n" + result);
-		return result;
+		}	 
+		return result.trim();
 	}
 
 	public static boolean writeTxtFile(String content, File fileName, boolean append) {
