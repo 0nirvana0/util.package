@@ -30,14 +30,24 @@ public class PropertiesUtil {
 		return new PropertiesUtil(url);
 	}
 
-	public Properties load() {
-		Properties prop = new Properties();
+	public Properties loadProperties() {
+		Properties prop = null;
+		InputStream in = null;
 		try {
-			InputStream in = new BufferedInputStream(new FileInputStream(path));
+			prop = new Properties();
+			in = new BufferedInputStream(new FileInputStream(path));
 			prop.load(new InputStreamReader(in, "UTF-8"));
 			in.close();
 		} catch (IOException e) {
 			e.printStackTrace();
+		} finally {
+			if (in != null) {
+				try {
+					in.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 		return prop;
 	}
@@ -66,11 +76,11 @@ public class PropertiesUtil {
 	}
 
 	public void editProperty(String key, String value) {
-		Properties prop = load();
+		Properties prop = loadProperties();
 		FileOutputStream oFile = null;
 		try {
 			// 保存属性到.properties文件
-			oFile = new FileOutputStream(path);// true表示追加打开
+			oFile = new FileOutputStream(path);//默认 true表示追加打开
 			prop.setProperty(key, value);
 			prop.store(oFile, "Copyright (c) liu qiang");
 		} catch (Exception e) {

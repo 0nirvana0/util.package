@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 
 public class TextUtil {
-	
 
 	/**
 	 * 创建文件
@@ -42,13 +41,9 @@ public class TextUtil {
 		try {
 			fileReader = new FileReader(fileName);
 			bufferedReader = new BufferedReader(fileReader);
-			try {
-				String read = null;
-				while ((read = bufferedReader.readLine()) != null) {
-					result = result + read + "\r\n";
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
+			String read = null;
+			while ((read = bufferedReader.readLine()) != null) {
+				result = result + read + "\r\n";
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -63,7 +58,7 @@ public class TextUtil {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		}	 
+		}
 		return result.trim();
 	}
 

@@ -65,8 +65,7 @@ public class FileUtil {
 				else
 					// 如果是目录
 					countFolders++;
-				if (pathname.isDirectory()
-						|| (pathname.isFile() && pathname.getName().toLowerCase().contains(keyWord.toLowerCase())))// 目录或文件包含关键字
+				if (pathname.isDirectory() || (pathname.isFile() && pathname.getName().toLowerCase().contains(keyWord.toLowerCase())))// 目录或文件包含关键字
 					return true;
 				return false;
 			}
@@ -107,4 +106,16 @@ public class FileUtil {
 		deleteAllFilesOfDir(new File(path));
 	}
 
+	/**
+	 * 创建目录
+	 * @param destDirName目标目录名
+	 * @return 
+	 */
+	public static Boolean createDir(String destDirName) {
+		File dir = new File(destDirName);
+		if (!dir.getParentFile().exists()) {			//判断有没有父路径，就是判断文件整个路径是否存在
+			return dir.getParentFile().mkdirs();		//不存在就全部创建
+		}
+		return false;
+	}
 }
